@@ -1,39 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Pallet1 #2c3f66 #455071 -->
+    <!-- Pallet2 #1b0808 #211a1a -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nyx Messenger</title>
     <style>
-        .nyx-head {
-            height: 20%;
+        body {
+            margin: 0;
+            padding: 0;
+            color: whitesmoke;
+            font-family: Arial, monospace;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        #nyx-head {
+            height: 30px;
             width: 100%;
             overflow: hidden;
             margin: 0;
             background-color: orange;
         }
-        .nyx-msg {
-            height: 80%;
-            width: 100%;
-            overflow: hidden;
-            margin: 0;
-            background-color: blueviolet;
-        }
-        .nyx-container {
+        #nyx-container {
             height: 100%;
             width: 100%;
         }
         .header {
             text-align: center;
+            margin: 0;
+        }
+        #contacts {
+            position: absolute;
+            height: 100%;
+            width: 30%;
+            background-color: #211a1a;
+            color: white;
+            height: 574px;
+        }
+        #message-window {
+            position: absolute;
+            height: 100%;
+            width: 70%;
+            left: 30%;
+            background-color: #1b0808;
+            color: white;
+            height: 574px;
+        }
+        .column-header {
+            position: absolute;
+            top: -15px;
+            padding-top: 10px;
+            padding-bottom: 5px;
+            width: 100%;
+            padding-left: 5px;
+            font-size: 20px;
+            background-color: #302626;
         }
     </style>
 </head>
 <body>
-    <div class="nyx-container">
-        <div class="nyx-head">
-            <h1 class="header">Test</h1>
+    <div id="nyx-container">
+
+        <div id="contacts">
+            <h1 class="column-header">Contacts</h1>
         </div>
-        <div class="nyx-msg">
+
+        <div id="message-window">
+            <h1 class="column-header">{USER}</h1>
+        </div>
+            
         </div>
     </div>
 </body>
