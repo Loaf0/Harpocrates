@@ -1,77 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Pallet1 #2c3f66 #455071 -->
-    <!-- Pallet2 #1b0808 #211a1a -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nyx Messenger</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            color: whitesmoke;
-            font-family: Arial, monospace;
-            font-weight: 600;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-        #nyx-head {
-            height: 30px;
-            width: 100%;
-            overflow: hidden;
-            margin: 0;
-            background-color: orange;
-        }
-        #nyx-container {
-            height: 100%;
-            width: 100%;
-        }
-        .header {
-            text-align: center;
-            margin: 0;
-        }
-        #contacts {
-            position: absolute;
-            height: 100%;
-            width: 30%;
-            background-color: #211a1a;
-            color: white;
-            height: 574px;
-        }
-        #message-window {
-            position: absolute;
-            height: 100%;
-            width: 70%;
-            left: 30%;
-            background-color: #1b0808;
-            color: white;
-            height: 574px;
-        }
-        .column-header {
-            position: absolute;
-            top: -15px;
-            padding-top: 10px;
-            padding-bottom: 5px;
-            width: 100%;
-            padding-left: 5px;
-            font-size: 20px;
-            background-color: #302626;
-        }
-    </style>
+    <link rel="stylesheet" href="/static/home.css">
 </head>
 <body>
-    <div id="nyx-container">
-
-        <div id="contacts">
-            <h1 class="column-header">Contacts</h1>
+    <div class="container">
+        <div class="top-bar">
+            <h1>Nyx Messenger</h1>
         </div>
-
-        <div id="message-window">
-            <h1 class="column-header">{USER}</h1>
-        </div>
-            
+        <div class="content">
+            <div class="sidebar">
+                <h2>Contacts</h2>
+                <div class="contacts-container">
+                    <button class="add-contact">Add Contact</button>
+                    <hr>
+                    <ul class="contacts-list">
+                        <li>Contact 1</li>
+                        <li>Contact 2</li>
+                        <li>Contact 3</li>
+                        <li>Contact 4</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="main-content">
+                <h2>Messages</h2>
+                <div class="messages">
+                    <div class="message">
+                        <strong>Contact 1:</strong> Hello!
+                    </div>
+                    <div class="message">
+                        <strong>You:</strong> Hi, how are you?
+                    </div>
+                    <div class="message">
+                        <strong>Contact 1:</strong> I'm good, thanks!
+                    </div>
+                </div>
+                <div class="send-message-container">
+                    <input type="text" class="send-message-input" placeholder="Type a message...">
+                    <button class="send-message-button">Send</button>
+                </div>
+            </div>
         </div>
     </div>
 </body>

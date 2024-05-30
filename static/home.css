@@ -1,0 +1,160 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #222;
+    color: white;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.top-bar {
+    background-color: #444;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top-bar h1 {
+    margin: 0;
+}
+
+.add-contact {
+    font-size: 16px;
+    background-color: #444;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 100%;
+    margin-bottom: 7px;
+}
+
+.add-contact:hover {
+    background-color: #555;
+}
+
+.content {
+    display: flex;
+    flex-grow: 1;
+}
+
+.sidebar {
+    width: 25%;
+    max-width: 250px;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.sidebar h2 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.contacts-container {
+    background-color: #333;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    height: 90%;
+    overflow-y: auto;
+}
+
+.contacts-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 0;
+}
+
+.contacts-list li {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #444;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.contacts-list li:hover {
+    background-color: #555;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content h2 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.messages {
+    background-color: #333;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column-reverse;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.message {
+    padding: 10px;
+    margin: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.message strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.send-message-container {
+    margin-top: 10px;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    height: 30px;
+}
+
+.send-message-input {
+    height: 100%;
+    background-color: #333;
+    font-size: 16px;
+    color: white;
+    flex-grow: 1;
+    padding: 10px;
+    margin-right: 5px;
+    border-radius: 8px;
+    border: 0;
+}
+
+.send-message-button {
+    height: 160%;
+    margin-left: 5px;
+    font-size: 16px;
+    background-color: #444;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 0;
+}
+
+.send-message-button:hover {
+    background-color: #555;
+}
+
+
