@@ -1,20 +1,33 @@
 {
     "name": "nyx-p2p-messenger",
     "version": "1.0.0",
-    "description": "Hello World!",
+    "description": "Encrypted P2P Chat App",
     "main": "main.js",
     "type": "module",
     "scripts": {
         "start": "electron .",
         "buildexe": "electron-packager ./ Nyx --platform=win32 --arch=x64"
     },
-    "author": "Jane Doe",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Loaf0/Nyx-P2P-Messenger.git"
+    },
+    "keywords": [
+        "P2P",
+        "Encryption",
+        "ElectronJS"
+    ],
+    "author": "Loaf0 && da-strange-boi",
+    "license": "Unlicense",
+    "bugs": {
+        "url": "https://github.com/Loaf0/Nyx-P2P-Messenger/issues"
+    },
+    "homepage": "https://github.com/Loaf0/Nyx-P2P-Messenger#readme",
     "dependencies": {
         "electron": "^30.0.9",
         "ws": "^8.17.0"
     },
     "devDependencies": {
-        "electron-packager": "^17.1.2",
-        "typescript": "^5.4.5"
+        "electron-packager": "^17.1.2"
     }
 }
