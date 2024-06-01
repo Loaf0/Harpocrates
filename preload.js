@@ -1,9 +1,10 @@
-const { contextBridge } = require('electron');
-
-contextBridge.exposeInMainWorld('api', {
-    fetchMessage: async () => {
-        const response = await fetch('http://127.0.0.1:3000/api/data');
-        const data = await response.json();
-        return data.message;
+window.addEventListener('DOMContentLoaded', () => {
+    const replaceText = (selector, text) => {
+        const element = document.getElementById(selector)
+        if (element) element.innerText = text
     }
-});
+  
+    for (const type of ['chrome', 'node', 'electron']) {
+        replaceText(`${type}-version`, process.versions[type])
+    }
+})

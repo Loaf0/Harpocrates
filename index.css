@@ -1,5 +1,6 @@
 html {
     height: 100%;
+    overflow-y: hidden;
 }
 
 body {
@@ -17,6 +18,7 @@ body {
 }
 
 .top-bar {
+    height: auto;
     background-color: #444;
     padding: 10px;
     display: flex;
@@ -53,7 +55,9 @@ body {
     width: 25%;
     max-width: 250px;
     padding: 15px;
-    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 .sidebar h2 {
@@ -62,11 +66,12 @@ body {
 }
 
 .contacts-container {
+    height: 30%;
+    flex-direction: column;
     background-color: #333;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    height: 90%;
     overflow-y: auto;
 }
 
@@ -90,6 +95,7 @@ body {
 }
 
 .main-content {
+    height: 95vh;
     flex-grow: 1;
     padding: 15px;
     box-sizing: border-box;
@@ -118,6 +124,14 @@ body {
     padding: 10px;
     margin: 5px 0;
     border-bottom: 1px solid #ddd;
+}
+
+.message:first-child {
+    margin-top: auto;
+}
+
+.message:last-child {
+    border-bottom: none;
 }
 
 .message strong {
@@ -160,5 +174,3 @@ body {
 .send-message-button:hover {
     background-color: #555;
 }
-
-

@@ -1,14 +1,18 @@
 {
-  "name": "electron-node-app",
-  "version": "1.0.0",
-  "main": "main.js",
-  "scripts": {
-    "start": "electron ."
-  },
-  "dependencies": {
-    "express": "^4.17.1"
-  },
-  "devDependencies": {
-    "electron": "^11.2.1"
-  }
+    "name": "nyx-p2p-messenger",
+    "version": "1.0.0",
+    "description": "Hello World!",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron ."
+    },
+    "author": "Jane Doe",
+    "dependencies": {
+        "ejs": "^3.1.10",
+        "electron": "^30.0.9",
+        "ws": "^8.17.0"
+    },
+    "devDependencies": {
+        "typescript": "^5.4.5"
+    }
 }
