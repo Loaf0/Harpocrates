@@ -1,8 +1,12 @@
-const { app, BrowserWindow } = require('electron/main')
-const path = require('node:path')
-const { WebSocket, WebSocketServer } = require('ws')
+import { app, BrowserWindow } from 'electron/main';
+import { WebSocket, WebSocketServer } from 'ws';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const wss = new WebSocketServer({ port: 37095 })
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const wss = new WebSocketServer({ port: 37095 });
 let ws;
 
 function createWindow() {
@@ -25,31 +29,31 @@ wss.on('connection', (ws) => {
 
     ws.on('message', (data) => {
 
-    })
+    });
 
     // send current user contact info
     ws.send(JSON.stringify({
         'ipAddress': '',
         'displayName': '',
         'pubKey': ''
-    }))
-})
+    }));
+});
 
 const attemptConnection = (address) => {
-    ws = new WebSocket(`ws://${address}`)
+    ws = new WebSocket(`ws://${address}`);
 
     // client timeout
-    ws.on('error', console.error)
+    ws.on('error', console.error);
 
     // connection to server successful
     ws.on('open', () => {
 
-    })
+    });
 
     // received data from server
     ws.on('message', (data) => {
 
-    })
+    });
 }
 
 app.whenReady().then(() => {
@@ -60,12 +64,12 @@ app.whenReady().then(() => {
         if (BrowserWindow.getAllWindows().length === 0) {
             createWindow();
         }
-    })
-})
+    });
+});
 
 // quit the app once window closes
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit();
     }
-})
+});
