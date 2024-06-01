@@ -178,3 +178,20 @@ body {
 .send-message-button:hover {
     background-color: #555;
 }
+
+::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #555;
+    border-radius: 5px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #444;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #333;
+  }
