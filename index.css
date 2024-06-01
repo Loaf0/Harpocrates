@@ -126,6 +126,10 @@ body {
     border-bottom: 1px solid #ddd;
 }
 
+.message:hover {
+    background-color: #555;
+}
+
 .message:first-child {
     margin-top: auto;
 }

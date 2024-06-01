@@ -8,7 +8,6 @@
     },
     "author": "Jane Doe",
     "dependencies": {
-        "ejs": "^3.1.10",
         "electron": "^30.0.9",
         "ws": "^8.17.0"
     },
