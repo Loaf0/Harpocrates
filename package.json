@@ -4,7 +4,8 @@
     "description": "Hello World!",
     "main": "main.js",
     "scripts": {
-        "start": "electron ."
+        "start": "electron .",
+        "buildexe": "electron-packager ./ Nyx --platform=win32 --arch=x64"
     },
     "author": "Jane Doe",
     "dependencies": {
@@ -12,6 +13,7 @@
         "ws": "^8.17.0"
     },
     "devDependencies": {
+        "electron-packager": "^17.1.2",
         "typescript": "^5.4.5"
     }
 }
