@@ -37,20 +37,20 @@ wss.on('connection', (ws) => {
 
 const attemptConnection = (address) => {
     ws = new WebSocket(`ws://${address}`)
+
+    // client timeout
+    ws.on('error', console.error)
+
+    // connection to server successful
+    ws.on('open', () => {
+
+    })
+
+    // received data from server
+    ws.on('message', (data) => {
+
+    })
 }
-
-// client timeout
-ws.on('error', console.error)
-
-// connection to server successful
-ws.on('open', () => {
-
-})
-
-// received data from server
-ws.on('message', (data) => {
-
-})
 
 app.whenReady().then(() => {
     createWindow();
