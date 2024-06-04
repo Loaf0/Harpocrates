@@ -24,10 +24,12 @@
     },
     "homepage": "https://github.com/Loaf0/Nyx-P2P-Messenger#readme",
     "dependencies": {
+        "eccrypto": "^1.1.6",
         "electron": "^30.0.9",
         "ws": "^8.17.0"
     },
     "devDependencies": {
+        "@types/eccrypto": "^1.1.6",
         "electron-packager": "^17.1.2"
     }
 }
