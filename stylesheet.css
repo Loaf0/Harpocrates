@@ -30,7 +30,7 @@ body {
     margin: 0;
 }
 
-.add-contact {
+#add-contact {
     font-size: 16px;
     background-color: #444;
     color: white;
@@ -42,7 +42,7 @@ body {
     margin-bottom: 7px;
 }
 
-.add-contact:hover {
+#add-contact:hover {
     background-color: #555;
 }
 
@@ -65,7 +65,7 @@ body {
     text-align: center;
 }
 
-.contacts-container {
+#contacts-container {
     height: 30%;
     flex-direction: column;
     background-color: #333;
@@ -75,13 +75,13 @@ body {
     overflow-y: auto;
 }
 
-.contacts-list {
+#contacts-list {
     list-style: none;
     padding: 0;
     margin-top: 0;
 }
 
-.contacts-list li {
+#contacts-list li {
     padding: 10px;
     margin: 5px 0;
     background-color: #444;
@@ -90,7 +90,7 @@ body {
     border-radius: 4px;
 }
 
-.contacts-list li:hover {
+#contacts-list li:hover {
     background-color: #555;
 }
 
@@ -108,7 +108,7 @@ body {
     text-align: center;
 }
 
-.messages {
+#messages {
     background-color: #333;
     padding: 15px;
     border-radius: 8px;
@@ -194,4 +194,19 @@ body {
   
 ::-webkit-scrollbar-thumb:hover {
     background: #333;
+}
+
+#settings {
+    font-size: 16px;
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    width: 15%;
+}
+
+#settings:hover {
+    background-color: #222;
 }

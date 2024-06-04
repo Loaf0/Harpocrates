@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nyx Messenger</title>
+    <title>Nyx</title>
     <link rel="stylesheet" href="index.css">
 </head>
 
@@ -12,20 +12,22 @@
     <div class="container">
         <div class="top-bar">
             <h1>Nyx Messenger</h1>
+            <button id="settings" >Settings</button>
         </div>
         <div class="content">
             <div class="sidebar">
                 <h2>Contacts</h2>
-                <div class="contacts-container">
-                    <button id="add-contact" class="add-contact">Add Contact</button>
+                <div id="contacts-container">
+                    <button id="add-contact">Add Contact</button>
                     <hr>
-                    <ul id="contacts-list" class="contacts-list"></ul>
+                    <ul id="contacts-list"></ul>
                 </div>
             </div>
             <div class="main-content">
                 <h2>Messages</h2>
-                <div id="messages" class="messages">
-                    <!-- <div class="message">
+                <div id="messages">
+                    <!-- 
+                    <div class="message">
                         <p><strong>Contact 1:</strong> Hello!</p>
                     </div>
                     <div class="message">
@@ -33,7 +35,8 @@
                     </div>
                     <div class="message">
                         <p><strong>Contact 1:</strong> I'm good, thanks!</p>
-                    </div> -->
+                    </div> 
+                    -->
                 </div>
                 <div class="send-message-container">
                     <input type="text" class="send-message-input" placeholder="Type a message...">
