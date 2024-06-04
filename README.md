@@ -5,6 +5,16 @@ Nyx is a Asymetrically Encrypted Peer-to-Peer messaging system
 Made using Electron.js and Node.js
 
 ## Log Object Templates
+- User data
+```js
+{
+    "displayName": "",
+    "publicKey": "",
+    "encryptedPrivateKey": "",
+    "passwordCheckString": ""
+}
+```
+
 - Contact data
 ```js
 {
