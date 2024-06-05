@@ -28,6 +28,27 @@ const createKeys = (password) => {
 }
 
 /**
+ * Changes the password on the private key
+ * @param {String} currentPassword Current password (UTF8)
+ * @param {String} newPassword New user chosen password (UTF8)
+ * @param {String} currentEncryptedPrivateKey Private key in format (base64$$base64$$base64)
+ * @returns {String} Private key encrypted using the new password
+ */
+const changePrivateKeyPassword = (currentPassword, newPassword, currentEncryptedPrivateKey) => {
+    const decryptedPrivateKey = Buffer.from(decryptPrivateKey(currentPassword, currentEncryptedPrivateKey));
+    const newPasswordHash = createPasswordHash(newPassword);
+
+    // Create new encryption
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv("aes-256-gcm", newPasswordHash, iv);
+    const encryptedPrivateKey = Buffer.concat([cipher.update(decryptedPrivateKey), cipher.final()]);
+    const tag = cipher.getAuthTag().toString(b64);
+
+    // format: privateKey$$authTag$$IV
+    return `${encryptedPrivateKey.toString(b64)}$$${tag}$$${iv.toString(b64)}`;
+}
+
+/**
  * Takes an encrypted private key and a password to decrypt the private key
  * @param {String} password User chosen password (UTF8)
  * @param {String} encryptedPrivateKeyIV Private key in format (base64$$base64$$base64)
@@ -87,6 +108,7 @@ const decryptMessage = async (rawPrivateKey, encryptedMessage) => {
 module.exports = {
     createPasswordHash,
     createKeys,
+    changePrivateKeyPassword,
     decryptPrivateKey,
     encryptMessage,
     decryptMessage
