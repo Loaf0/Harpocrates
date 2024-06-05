@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Nyx</title>
+        <link rel="stylesheet" href="stylesheet.css">
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="top-bar">
+                <h1>Nyx Messenger</h1>
+                <!--<button id="settings" >Settings</button>-->
+            </div>
+            <div class="content">
+                <div class="main-content">
+                    <h2>Login</h2>
+                    <div id="login">
+                        <section id="greetingBox">
+                            <h1>Welcome back, <span id="userDisplayName"></span></h1>
+                        </section>
+                        <section id="displayNameInputSect">
+                            <h2>Display Name</h2>
+                            <input id="displayNameInput" type="text">
+                        </section>
+                        <h2>Password</h2>
+                        <input id="passwordInput" type="password">
+                        <button id="login_button">Start Nyx</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        const displayNameInputSect = document.getElementById("displayNameInputSect")
+        const greetingBox = document.getElementById("greetingBox")
+
+
+        const onLoad = async () => {
+            const doesUserExist = await window.electronAPI.doesUserExist()
+            let userdata
+
+            if (doesUserExist) {
+                // just ask for password to decrypt private key
+                displayNameInputSect.style.display = "none";
+                greetingBox.style.display = "block";
+
+                userdata = await window.electronAPI.getUserData();
+                document.getElementById("userDisplayName").innerText = userdata.displayName
+            }
+
+            document.getElementById("login_button").onclick = async () => {
+                const passwordInput = document.getElementById("passwordInput").value
+                const displayNameInput = document.getElementById("displayNameInput").value
+                
+                if (doesUserExist) {
+                    const passwordHash = await window.electronAPI.createPasswordHash(passwordInput)
+                    // grant access
+                    console.log(userdata)
+                    if (passwordHash === userdata.passwordHash) {
+                        sessionStorage.setItem("userdata", JSON.stringify(userdata))
+                        window.location.replace("index.html");
+                    }
+                } else {
+                    const newUserdata = await window.electronAPI.createNewUser(displayNameInput, passwordInput);
+                    sessionStorage.setItem("userdata", JSON.stringify(newUserdata))
+                    window.location.replace("index.html");
+                }
+            }
+        }
+
+        onLoad()
+    </script>
+</html>

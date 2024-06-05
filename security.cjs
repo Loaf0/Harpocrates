@@ -1,7 +1,13 @@
-import * as crypto from 'crypto'
-import * as eccrypto from 'eccrypto'
+// import * as crypto from 'crypto'
+// import * as eccrypto from 'eccrypto'
+const crypto = require('crypto')
+const eccrypto = require('eccrypto')
 
 const b64 = 'base64url'
+
+const createPasswordHash = (password) => {
+    return crypto.createHash('sha256').update(password).digest();
+}
 
 /**
  * Generate the EC key pair
@@ -11,7 +17,7 @@ const b64 = 'base64url'
 const createKeys = (password) => {
     const privateKey = eccrypto.generatePrivate();
     const publicKey = eccrypto.getPublic(privateKey).toString(b64);
-    const passwordHash = crypto.createHash('sha256').update(password).digest();
+    const passwordHash = createPasswordHash(password);
 
     const iv = crypto.randomBytes(16);
     const cipher = crypto.createCipheriv('aes-256-gcm', passwordHash, iv);
@@ -30,7 +36,7 @@ const createKeys = (password) => {
  * @returns {String} User decrypted private key (base64)
  */
 const decryptPrivateKey = (password, encryptedPrivateKeyIV) => {
-    const passwordHash = crypto.createHash('sha256').update(password).digest();
+    const passwordHash = createPasswordHash(password);
     const [encryptedPrivateKey, tag, iv] = encryptedPrivateKeyIV.split('$$');
 
     const decipher = crypto.createDecipheriv('aes-256-gcm', passwordHash, Buffer.from(iv, b64));
@@ -80,20 +86,26 @@ const decryptMessage = async (rawPrivateKey, encryptedMessage) => {
     return (await eccrypto.decrypt(Buffer.from(rawPrivateKey, b64), ecies)).toString('utf8');
 }
 
-const test = async () => {
-    const bobKeys = createKeys("secretpassword1");
-    const aliceKeys = createKeys("secretpassword2");
+// const test = async () => {
+//     const bobKeys = createKeys("secretpassword1");
+//     const aliceKeys = createKeys("secretpassword2");
 
-    const messageToSend = "Hello Alice!";
-    const bobMessage = await encryptMessage(aliceKeys.publicKey, messageToSend);
+//     const messageToSend = "Hello Alice!";
+//     const bobMessage = await encryptMessage(aliceKeys.publicKey, messageToSend);
 
-    const aliceRawPrivateKey = decryptPrivateKey("secretpassword2", aliceKeys.encryptedPrivateKeyIV);
-    const messageReceived = await decryptMessage(aliceRawPrivateKey, bobMessage);
+//     const aliceRawPrivateKey = decryptPrivateKey("secretpassword2", aliceKeys.encryptedPrivateKeyIV);
+//     const messageReceived = await decryptMessage(aliceRawPrivateKey, bobMessage);
 
-    const didTestPass = messageToSend === messageReceived;
-    console.log(`Test Passed? ${didTestPass}`);
+//     const didTestPass = messageToSend === messageReceived;
+//     console.log(`Test Passed? ${didTestPass}`);
+// }
+
+// test();
+
+module.exports = {
+    createPasswordHash,
+    createKeys,
+    decryptPrivateKey,
+    encryptMessage,
+    decryptMessage
 }
-
-test();
-
-

@@ -377,3 +377,7 @@ body {
     color: #ddd;
     cursor: pointer;
 }
+
+#greetingBox {
+    display: none;
+}
