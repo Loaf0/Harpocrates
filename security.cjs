@@ -34,8 +34,9 @@ const createKeys = (password) => {
  * @param {String} currentEncryptedPrivateKey Private key in format (base64$$base64$$base64)
  * @returns {String} Private key encrypted using the new password
  */
-const changePrivateKeyPassword = (currentPassword, newPassword, currentEncryptedPrivateKey) => {
-    const decryptedPrivateKey = Buffer.from(decryptPrivateKey(currentPassword, currentEncryptedPrivateKey));
+const changePrivateKeyPassword = (currentPassword, newPassword, currentPrivateKey) => {
+//    const decryptedPrivateKey = Buffer.from(decryptPrivateKey(currentPassword, currentEncryptedPrivateKey));
+    const decryptedPrivateKey = Buffer.from(currentPrivateKey, b64);
     const newPasswordHash = createPasswordHash(newPassword);
 
     // Create new encryption

@@ -19,22 +19,64 @@
                     <div id="settings_menu">
                         <form action="">
                             <h2>Change Display Name :</h2>
-                            <input type="text">
+                            <input id="displayNameInput" type="text">
                             <h2>Change Password :</h2>
-                            <input type="password">
+                            <input id="newPasswordInput" type="password">
+                            <h2>Current Password</h2>
+                            <input id="currentPasswordInput" type="password">
                         </form>
-                        <a href="index.html"> <button class="settings_button">Save data</button> </a>
-                        <a href="login.html"> <button id="logoutBtn" class="settings_button">Logout</button> </a>
+                        <button id="saveBtn" class="settings_button">Save data</button>
+                        <button id="logoutBtn" class="settings_button">Logout</button>
                     </div>
                 </div>
             </div>
         </div>
     </body>
     <script>
+        // Only allow user in: if logged in
+        let userdata = sessionStorage.getItem("userdata");
+        if (userdata === null) {
+            window.location.replace("login.html");
+        }
+        userdata = JSON.parse(userdata);
+
         // Logs user out | Deletes session obj
         document.getElementById("logoutBtn").onclick = () => {
             sessionStorage.removeItem("userdata");
             window.location.replace("login.html");
+        }
+
+        // Change settings
+        document.getElementById("saveBtn").onclick = async () => {
+            const displayNameInput = document.getElementById("displayNameInput").value;
+            const newPasswordInput = document.getElementById("newPasswordInput").value;
+            const currentPasswordInput = document.getElementById("currentPasswordInput").value;
+
+            const currentPasswordHash = await window.electronAPI.createPasswordHash(currentPasswordInput);
+
+            // If password correct: process changes
+            if (currentPasswordHash === userdata.passwordHash) {
+                // Change password
+                if (newPasswordInput !== "" && newPasswordInput !== " ") {
+                    await window.electronAPI.changePassword(currentPasswordInput, newPasswordInput, userdata.privateKey);
+                    sessionStorage.removeItem("userdata");
+                    window.location.replace("login.html");
+                    //TODO: display password change successful
+                }
+
+                // Change display name
+                if (displayNameInput !== "" && displayNameInput !== " ") {
+                   const newUserdata = await window.electronAPI.changeDisplayName(displayNameInput);
+                   sessionStorage.setItem("userdata", JSON.stringify(newUserdata));
+                    //TODO: display displayname change successful
+                }
+            } else {
+                //TODO: handle error message for incorrect password
+            }
+
+            document.getElementById("displayNameInput").value = "";
+            document.getElementById("newPasswordInput").value = "";
+            document.getElementById("currentPasswordInput").value = "";
         }
     </script>
 </html>

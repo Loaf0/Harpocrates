@@ -61,6 +61,9 @@
                     // Grant access if input password matched stored hashed password
                     //? Could be easily bypassed
                     if (passwordHash === userdata.passwordHash) {
+                        const decryptedPrivateKey = await window.electronAPI.decryptPrivateKey(userdata.privateKey, passwordInput);
+                        userdata.privateKey = decryptedPrivateKey;
+
                         sessionStorage.setItem("userdata", JSON.stringify(userdata));
                         window.location.replace("index.html");
                     }

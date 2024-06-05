@@ -3,7 +3,7 @@ import { app, BrowserWindow, ipcMain } from 'electron/main';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import * as fs from 'fs';
-import { createPasswordHash, createKeys, decryptPrivateKey } from './security.cjs'
+import { createPasswordHash, createKeys, decryptPrivateKey, changePrivateKeyPassword } from './security.cjs'
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -113,6 +113,34 @@ async function createNewUser(_event, displayName, password) {
     return userdata;
 }
 
+async function decryptPrivateKeyHandle(_event, encryptedPrivateKey, password) {
+    return decryptPrivateKey(password, encryptedPrivateKey);
+}
+
+async function changePassword(_event, currentPassword, newPassword, currentPrivateKey) {
+    const userdata = await getUserData();
+    const newPrivateKey = changePrivateKeyPassword(currentPassword, newPassword, currentPrivateKey);
+    const newPasswordHash = createPasswordHash(newPassword).toString("hex");
+
+    // Write updated UserData to disk
+    userdata.privateKey = newPrivateKey;
+    userdata.passwordHash =  newPasswordHash;
+    fs.writeFileSync(userdataFile, JSON.stringify(userdata));
+
+    // Setting first session, decrypt private key
+    userdata.privateKey = decryptPrivateKey(newPassword, userdata.privateKey);
+    return userdata;
+}
+
+async function changeDisplayName(_event, newDisplayName) {
+    const userdata = await getUserData();
+    userdata.displayName = newDisplayName;
+    fs.writeFileSync(userdataFile, JSON.stringify(userdata));
+
+    console.log(userdata)
+    return userdata;
+}
+
 app.whenReady().then(async() => {
     createWindow();
 
@@ -121,6 +149,9 @@ app.whenReady().then(async() => {
     ipcMain.handle("dialog:getUserData", getUserData);
     ipcMain.handle("dialog:createNewUser", createNewUser);
     ipcMain.handle("dialog:createPasswordHash", createPasswordHashHex);
+    ipcMain.handle("dialog:changePassword", changePassword);
+    ipcMain.handle("dialog:decryptPrivateKey", decryptPrivateKeyHandle);
+    ipcMain.handle("dialog:changeDisplayName", changeDisplayName);
 
     // Retry to create window
     app.on("activate", () => {
