@@ -1,12 +1,10 @@
-// import * as crypto from 'crypto'
-// import * as eccrypto from 'eccrypto'
 const crypto = require('crypto')
 const eccrypto = require('eccrypto')
 
-const b64 = 'base64url'
+const b64 = "base64url";
 
 const createPasswordHash = (password) => {
-    return crypto.createHash('sha256').update(password).digest();
+    return crypto.createHash("sha256").update(password).digest();
 }
 
 /**
@@ -20,13 +18,13 @@ const createKeys = (password) => {
     const passwordHash = createPasswordHash(password);
 
     const iv = crypto.randomBytes(16);
-    const cipher = crypto.createCipheriv('aes-256-gcm', passwordHash, iv);
+    const cipher = crypto.createCipheriv("aes-256-gcm", passwordHash, iv);
     const encryptedPrivateKey = Buffer.concat([cipher.update(privateKey), cipher.final()]);
     const tag = cipher.getAuthTag().toString(b64);
 
     // format: privateKey$$authTag$$IV
     const encryptedPrivateKeyIV = `${encryptedPrivateKey.toString(b64)}$$${tag}$$${iv.toString(b64)}`;
-    return { publicKey, encryptedPrivateKeyIV };
+    return { publicKey, encryptedPrivateKeyIV }
 }
 
 /**
@@ -37,9 +35,9 @@ const createKeys = (password) => {
  */
 const decryptPrivateKey = (password, encryptedPrivateKeyIV) => {
     const passwordHash = createPasswordHash(password);
-    const [encryptedPrivateKey, tag, iv] = encryptedPrivateKeyIV.split('$$');
+    const [encryptedPrivateKey, tag, iv] = encryptedPrivateKeyIV.split("$$");
 
-    const decipher = crypto.createDecipheriv('aes-256-gcm', passwordHash, Buffer.from(iv, b64));
+    const decipher = crypto.createDecipheriv("aes-256-gcm", passwordHash, Buffer.from(iv, b64));
     decipher.setAuthTag(Buffer.from(tag, b64));
 
     const rawPrivateKey = Buffer.concat([decipher.update(encryptedPrivateKey, b64), decipher.final()]);
@@ -71,8 +69,8 @@ const formatECIES = (rawECIES, encode) => {
  * @returns {Promise<String>} CipherText with prams (base64)
  */
 const encryptMessage = async (publicKey, plainText) => {
-    const ecies = await eccrypto.encrypt(Buffer.from(publicKey, b64), Buffer.from(plainText, 'utf8'));
-    return Buffer.from(JSON.stringify(formatECIES(ecies, b64)), 'utf8').toString(b64);
+    const ecies = await eccrypto.encrypt(Buffer.from(publicKey, b64), Buffer.from(plainText, "utf8"));
+    return Buffer.from(JSON.stringify(formatECIES(ecies, b64)), "utf8").toString(b64);
 }
 
 /**
@@ -82,25 +80,9 @@ const encryptMessage = async (publicKey, plainText) => {
  * @returns {Promise<String>} Plaintext message (UTF-8)
  */
 const decryptMessage = async (rawPrivateKey, encryptedMessage) => {
-    const ecies = formatECIES(JSON.parse(Buffer.from(encryptedMessage, b64).toString('utf8')), 'Buffer');
-    return (await eccrypto.decrypt(Buffer.from(rawPrivateKey, b64), ecies)).toString('utf8');
+    const ecies = formatECIES(JSON.parse(Buffer.from(encryptedMessage, b64).toString("utf8")), "Buffer");
+    return (await eccrypto.decrypt(Buffer.from(rawPrivateKey, b64), ecies)).toString("utf8");
 }
-
-// const test = async () => {
-//     const bobKeys = createKeys("secretpassword1");
-//     const aliceKeys = createKeys("secretpassword2");
-
-//     const messageToSend = "Hello Alice!";
-//     const bobMessage = await encryptMessage(aliceKeys.publicKey, messageToSend);
-
-//     const aliceRawPrivateKey = decryptPrivateKey("secretpassword2", aliceKeys.encryptedPrivateKeyIV);
-//     const messageReceived = await decryptMessage(aliceRawPrivateKey, bobMessage);
-
-//     const didTestPass = messageToSend === messageReceived;
-//     console.log(`Test Passed? ${didTestPass}`);
-// }
-
-// test();
 
 module.exports = {
     createPasswordHash,

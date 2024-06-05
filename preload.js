@@ -1,11 +1,12 @@
-const { contextBridge, ipcRenderer } = require('electron')
+const { contextBridge, ipcRenderer } = require('electron');
 
-contextBridge.exposeInMainWorld('electronAPI', {
-    doesUserExist: () => ipcRenderer.invoke('dialog:doesUserExist'),
-    getUserData: () => ipcRenderer.invoke('dialog:getUserData'),
-    createNewUser: (displayName, password) => ipcRenderer.invoke('dialog:createNewUser', displayName, password),
-    createPasswordHash: (rawPassword) => ipcRenderer.invoke('dialog:createPasswordHash', rawPassword)
-})
+// Expose backend functions to the DOM
+contextBridge.exposeInMainWorld("electronAPI", {
+    doesUserExist: () => ipcRenderer.invoke("dialog:doesUserExist"),
+    getUserData: () => ipcRenderer.invoke("dialog:getUserData"),
+    createNewUser: (displayName, password) => ipcRenderer.invoke("dialog:createNewUser", displayName, password),
+    createPasswordHash: (rawPassword) => ipcRenderer.invoke("dialog:createPasswordHash", rawPassword)
+});
 
 window.addEventListener('DOMContentLoaded', () => {
     const contacts = ["Joe", "John", "Tyler", "Zach", "Nick", "Teddy", "Ethan", "Anneliese", "Twig"];
@@ -39,4 +40,4 @@ window.addEventListener('DOMContentLoaded', () => {
     createMessage("Contact 1", "Hello!");
     createMessage("You", "Hi, how are you?");
     createMessage("Contact 1", "I'm good, thanks!");
-})
+});

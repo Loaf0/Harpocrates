@@ -33,43 +33,45 @@
         </div>
     </body>
     <script>
-        const displayNameInputSect = document.getElementById("displayNameInputSect")
-        const greetingBox = document.getElementById("greetingBox")
-
+        const displayNameInputSect = document.getElementById("displayNameInputSect");
+        const greetingBox = document.getElementById("greetingBox");
 
         const onLoad = async () => {
-            const doesUserExist = await window.electronAPI.doesUserExist()
-            let userdata
+            const doesUserExist = await window.electronAPI.doesUserExist();
+            let userdata;
 
             if (doesUserExist) {
-                // just ask for password to decrypt private key
+                // If user data found: ask for password to decrypt private key
                 displayNameInputSect.style.display = "none";
                 greetingBox.style.display = "block";
 
+                // Get user data | Welcome user
                 userdata = await window.electronAPI.getUserData();
-                document.getElementById("userDisplayName").innerText = userdata.displayName
+                document.getElementById("userDisplayName").innerText = userdata.displayName;
             }
 
             document.getElementById("login_button").onclick = async () => {
-                const passwordInput = document.getElementById("passwordInput").value
-                const displayNameInput = document.getElementById("displayNameInput").value
+                // Get form values
+                const passwordInput = document.getElementById("passwordInput").value;
+                const displayNameInput = document.getElementById("displayNameInput").value;
                 
                 if (doesUserExist) {
-                    const passwordHash = await window.electronAPI.createPasswordHash(passwordInput)
-                    // grant access
-                    console.log(userdata)
+                    const passwordHash = await window.electronAPI.createPasswordHash(passwordInput);
+
+                    // Grant access if input password matched stored hashed password
+                    //? Could be easily bypassed
                     if (passwordHash === userdata.passwordHash) {
-                        sessionStorage.setItem("userdata", JSON.stringify(userdata))
+                        sessionStorage.setItem("userdata", JSON.stringify(userdata));
                         window.location.replace("index.html");
                     }
                 } else {
+                    // Create new user data | Set as session
                     const newUserdata = await window.electronAPI.createNewUser(displayNameInput, passwordInput);
-                    sessionStorage.setItem("userdata", JSON.stringify(newUserdata))
+                    sessionStorage.setItem("userdata", JSON.stringify(newUserdata));
                     window.location.replace("index.html");
                 }
             }
         }
-
         onLoad()
     </script>
 </html>

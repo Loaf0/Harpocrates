@@ -58,13 +58,12 @@
 </body>
 
 <script>
-    // only allow user in if login
+    // Only allow user in: if logged in
     let userdata = sessionStorage.getItem("userdata");
     if (userdata === null) {
         window.location.replace("login.html");
     }
     userdata = JSON.parse(userdata);
-    console.log(userdata);
 
     document.addEventListener('DOMContentLoaded', (event) => {
         const modal = document.getElementById("add-contact-modal");
