@@ -289,22 +289,25 @@ body {
     background-color: #333;
 }
 
-#settings_menu {
+.settings_menu {
     background-color: #333;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: auto;
     overflow-y: auto;
-    margin-top: 0px;
-    width: 50%;
-    padding-bottom: 15px;
+    width: auto;
+    padding: 15px;
     height: auto;
     text-align: center;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    overflow-x: hidden;
 }
 
-#settings_menu input {
+.settings_menu input {
+    margin: 0%;
     height: 30px;
-    width: 60%;
+    width: 80%;
     font-size:16pt;
     border-radius: 8px;
     background-color: #555;
@@ -313,11 +316,12 @@ body {
     border: 0;
 }
 
-#settings_menu h2 {
+.settings_menu h2 {
     margin: 3% 0% 3% 0%;
+    font-size: larger;
 }
 
-#settings_menu button {
+.settings_menu button {
     font-size: 16px;
     background-color: #444;
     color: #ddd;
@@ -326,7 +330,7 @@ body {
     cursor: pointer;
     border-radius: 8px;
     width: 50%;
-    margin: 10px;
+    margin: 4px;
 }
 
 /* for the background */

@@ -11,22 +11,40 @@
         <div class="container">
             <div class="top-bar">
                 <h1>Nyx Messenger</h1>
+                <input type="button" onclick="location.reload();"> <!-- my magic white square!!! -->
                 <a href="index.html"> <button id="settings" >Close</button> </a>
             </div>
             <div class="content">
                 <div class="main-content">
                     <h2>Settings</h2>
-                    <div id="settings_menu">
-                        <form action="">
-                            <h2>Change Display Name :</h2>
-                            <input id="displayNameInput" type="text">
-                            <h2>Change Password :</h2>
-                            <input id="newPasswordInput" type="password">
-                            <h2>Current Password</h2>
-                            <input id="currentPasswordInput" type="password">
-                        </form>
+                    <div class="settings_menu">
+                        <table>
+                            <td>
+                                <div class="setting_blocks">
+                                    <h2>Change Display Name :</h2>
+                                    <input id="displayNameInput" type="text">
+                                    <h2>Change Password :</h2>
+                                    <input id="newPasswordInput" type="password">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="setting_blocks" style="margin-left: 2%;">
+                                    <h2>Saved Messages :</h2>
+                                    <input id="newSavedMsgInput" type="number" min="5" max="500">
+                                    <h2>Change Port :</h2>
+                                    <input id="newPortInput" type="text">
+                                </div>
+                            </td>
+                        </table>
+                        <h2>Enable Message Saving : <input id="SaveMessages" type="checkbox" style="height: max-content; width: 20px; "></h2> <!-- Dynamically change the checked value of the box depending on user settings -->
+                    </div>
+
+                    <div class="settings_menu" style="width: 50%;">
+                        <h2>Current Password</h2>
+                        <input id="currentPasswordInput" type="password">
                         <button id="saveBtn" class="settings_button">Save data</button>
-                        <button id="logoutBtn" class="settings_button">Logout</button>
+                        <button id="logoutBtn" class="settings_button" style="background-color: #992d2d;">Logout</button>
+                        <p>{{Server response empty when not used}}</p>
                     </div>
                 </div>
             </div>
