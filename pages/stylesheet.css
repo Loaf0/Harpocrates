@@ -110,6 +110,10 @@ body {
     border: 0;
 }
 
+#remove-contact:hover {
+    background-color: #bb3838;
+}
+
 #contacts-list {
     list-style: none;
     padding: 0;
@@ -285,8 +289,8 @@ body {
     margin: 5% 0% 3% 0%;
 }
 
-#login_button :hover {
-    background-color: #333;
+#login_button:hover {
+    background-color: #555;
 }
 
 .settings_menu {
@@ -331,6 +335,18 @@ body {
     border-radius: 8px;
     width: 50%;
     margin: 4px;
+}
+
+.settings_menu button:hover {
+    background-color: #555;
+}
+
+#logoutBtn {
+    background-color: #992d2d;
+}
+
+#logoutBtn:hover {
+    background-color: #bb3838;
 }
 
 /* for the background */
