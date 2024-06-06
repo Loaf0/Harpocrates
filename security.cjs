@@ -98,7 +98,7 @@ const encryptMessage = async (publicKey, plainText) => {
 /**
  * Decrypts a ciphertext message with user private key
  * @param {String} rawPrivateKey User decrypted private key (base64)
- * @param {String} encryptedMessage Ciphertext to decrypt (UTF-8)
+ * @param {String} encryptedMessage Ciphertext to decrypt (base64)
  * @returns {Promise<String>} Plaintext message (UTF-8)
  */
 const decryptMessage = async (rawPrivateKey, encryptedMessage) => {

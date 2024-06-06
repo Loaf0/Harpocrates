@@ -32,19 +32,7 @@
             </div>
             <div class="main-content">
                 <h2>Messages</h2>
-                <div id="messages">
-                    <!-- 
-                    <div class="message">
-                        <p><strong>Contact 1:</strong> Hello!</p>
-                    </div>
-                    <div class="message">
-                        <p><strong>You:</strong> Hi, how are you?</p>
-                    </div>
-                    <div class="message">
-                        <p><strong>Contact 1:</strong> I'm good, thanks!</p>
-                    </div> 
-                    -->
-                </div>
+                <div id="messages"></div>
                 <div class="send-message-container">
                     <input type="text" class="send-message-input" placeholder="Type a message...">
                     <button class="send-message-button">Send</button>
@@ -52,32 +40,63 @@
             </div>
         </div>
     </div>
-
-    <div id="add-contact-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Enter Contact Address</h2>
-            <input  type="text" id="contact-address class="input" placeholder="43:172:121:207">
-            <input  type="text" id="contact-port" class="input" placeholder="37081">
-            <button id="save-contact" class="button">Save</button>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Nyx</title>
+        <link rel="stylesheet" href="stylesheet.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="top-bar">
+                <h1>Nyx Messenger</h1>
+                <a href="settings.html"> <button id="settings">Settings</button> </a>
+            </div>
+            <div class="content">
+                <div class="sidebar">
+                    <h2>Contacts</h2>
+                    <div id="contacts-container">
+                        <button id="add-contact">Add Contact</button>
+                        <hr>
+                        <ul id="contacts-list"></ul>
+                    </div>
+                </div>
+                <div class="main-content">
+                    <h2>Messages</h2>
+                    <div id="messages"></div>
+                    <div class="send-message-container">
+                        <input type="text" class="send-message-input" placeholder="Type a message...">
+                        <button class="send-message-button">Send</button>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-</body>
 
-<script>
-    // Only allow user in: if logged in
-    let userdata = sessionStorage.getItem("userdata");
-    if (userdata === null) {
-        window.location.replace("login.html");
-    }
-    userdata = JSON.parse(userdata);
+        <!--  -->
+        <div id="add-contact-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Enter Contact Address</h3>
+                <input  type="text" id="contact-address" class="input" placeholder="43.172.121.207">
+                <h3>Enter Contact Port</h3>
+                <input  type="text" id="contact-port" class="input" placeholder="37081">
+                <button id="save-contact" class="button">Save</button>
+            </div>
+        </div>
+    </body>
 
-    document.addEventListener('DOMContentLoaded', (event) => {
+    <script>
         const modal = document.getElementById("add-contact-modal");
         const btn = document.getElementById("add-contact");
         const span = document.getElementsByClassName("close")[0];
-        const saveBtn = document.getElementById("save-contact");
-        const contactsList = document.getElementById("contacts-list");
+
+
+        // Only allow user in: if logged in
+        let userdata = sessionStorage.getItem("userdata");
+        if (userdata === null) {
+            window.location.replace("login.html");
+        }
+        userdata = JSON.parse(userdata);
 
         btn.onclick = function() {
             modal.style.display = "block";
@@ -93,20 +112,21 @@
             }
         }
 
-        saveBtn.onclick = function() {
-            const contactName = document.getElementById("contact-name").value;
-            if (contactName) {
-                // umm i dont have the name yet but i will soon using adress rn
-                const li = document.createElement("li");
-                li.textContent = contactName;
-                contactsList.appendChild(li);
-                document.getElementById("contact-name").value = '';
-                modal.style.display = "none";
-            } else {
-                alert("Please enter a contact name.");
-            }
-        }
-    });
-</script>
+        // Adding contacts
+        document.getElementById("save-contact").onclick = async () => {
+            const contactAddress = document.getElementById("contact-address").value;
+            const contactPort = document.getElementById("contact-port").value;
 
+            //TODO: need a way to verify valid
+            const newContact = {
+                address: contactAddress,
+                port: contactPort,
+                displayName: "",
+                publicKey: "",
+                hasMadeConnection: false
+            }
+
+            const conacts = await window.electronAPI.saveNewContact(userdata.privateKey, userdata.publicKey, newContact);
+        }
+    </script>
 </html>

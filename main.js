@@ -3,13 +3,14 @@ import { app, BrowserWindow, ipcMain } from 'electron/main';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import * as fs from 'fs';
-import { createPasswordHash, createKeys, decryptPrivateKey, changePrivateKeyPassword } from './security.cjs'
+import { createPasswordHash, createKeys, decryptPrivateKey, changePrivateKeyPassword, encryptMessage, decryptMessage } from './security.cjs'
 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const userdataFile = path.join(app.getPath("userData"), "userdata.json");
+const contactsFile = path.join(app.getPath("userData"), "contacts");
 
 // const wss = new WebSocketServer({ port: 37095 });
 // let ws;
@@ -137,8 +138,15 @@ async function changeDisplayName(_event, newDisplayName) {
     userdata.displayName = newDisplayName;
     fs.writeFileSync(userdataFile, JSON.stringify(userdata));
 
-    console.log(userdata)
     return userdata;
+}
+
+async function getContactList(_event, privateKey) {
+    
+}
+
+async function saveNewContact(_event, privateKey, publicKey, contact) {
+    
 }
 
 app.whenReady().then(async() => {
@@ -152,6 +160,7 @@ app.whenReady().then(async() => {
     ipcMain.handle("dialog:changePassword", changePassword);
     ipcMain.handle("dialog:decryptPrivateKey", decryptPrivateKeyHandle);
     ipcMain.handle("dialog:changeDisplayName", changeDisplayName);
+    ipcMain.handle("dialog:saveNewContact", saveNewContact);
 
     // Retry to create window
     app.on("activate", () => {

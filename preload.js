@@ -8,7 +8,9 @@ contextBridge.exposeInMainWorld("electronAPI", {
     createPasswordHash: (rawPassword) => ipcRenderer.invoke("dialog:createPasswordHash", rawPassword),
     decryptPrivateKey: (encryptedPrivateKey, password) => ipcRenderer.invoke("dialog:decryptPrivateKey", encryptedPrivateKey, password),
     changePassword: (currentPassword, newPassword, currentPrivateKey) => ipcRenderer.invoke("dialog:changePassword", currentPassword, newPassword, currentPrivateKey),
-    changeDisplayName: (newDisplayName) => ipcRenderer.invoke("dialog:changeDisplayName", newDisplayName)
+    changeDisplayName: (newDisplayName) => ipcRenderer.invoke("dialog:changeDisplayName", newDisplayName),
+    saveNewContact: (privateKey, publicKey, contact) => ipcRenderer.invoke("dialog:saveNewContact", privateKey, publicKey, contact),
+    loadContacts: () => ipcRenderer.invoke("dialog:loadContacts")
 });
 
 window.addEventListener('DOMContentLoaded', () => {
