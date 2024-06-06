@@ -77,13 +77,37 @@ body {
 }
 
 #contacts-container {
-    height: 30%;
+    height: 60%;
     flex-direction: column;
     background-color: #333;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
+}
+
+#current-contact {
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: 40%;
+    height: 15%;
+    flex-direction: column;
+    background-color: #333;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#remove-contact {
+    width: 90%;
+    padding: 10px;
+    margin: 5px 0;
+    color: white;
+    background-color: #992d2d;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 8px;
+    border: 0;
 }
 
 #contacts-list {
@@ -138,6 +162,8 @@ body {
 }
 
 .message:hover {
+    border-bottom: 1px solid #555;
+    border-radius: 8px;
     background-color: #555;
 }
 
