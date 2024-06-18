@@ -142,11 +142,39 @@ async function changeDisplayName(_event, newDisplayName) {
 }
 
 async function getContactList(_event, privateKey) {
-    
+    const contactsFileExist = await fileExists(contactsFile);
+    if (!contactsFileExist) return [];
+
+    // Decrypt contacts
+    const contactsRaw = await fs.promises.readFile(contactsFile).catch(() => { return false });
+    const decryptedContacts = await decryptMessage(privateKey, contactsRaw.toString('utf8'));
+    const contacts = JSON.parse(decryptedContacts);
+
+    return contacts;
 }
 
-async function saveNewContact(_event, privateKey, publicKey, contact) {
-    
+async function saveNewContact(_event, contact, publicKey, privateKey) {
+    // Check for contacts file
+    const contactsFileExist = await fileExists(contactsFile);
+    if (!contactsFileExist) {
+        const newContactsData = JSON.stringify([contact]);
+        const contactsEncrypted = await encryptMessage(publicKey, newContactsData);
+
+        fs.writeFileSync(contactsFile, contactsEncrypted);
+        return newContactsData;
+    }
+
+    // If client has existing contacts, add on to it
+    const contactsRaw = await fs.promises.readFile(contactsFile).catch(() => { return false });
+    const decryptedContacts = await decryptMessage(privateKey, contactsRaw.toString('utf8'));
+    const contacts = JSON.parse(decryptedContacts);
+    contacts.push(contact);
+
+    // Re-Encrypt and save
+    const contactsEncrypted = await encryptMessage(publicKey, JSON.stringify(contacts));
+    fs.writeFileSync(contactsFile, contactsEncrypted);
+
+    return contacts;
 }
 
 app.whenReady().then(async() => {

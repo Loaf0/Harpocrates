@@ -9,7 +9,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
     decryptPrivateKey: (encryptedPrivateKey, password) => ipcRenderer.invoke("dialog:decryptPrivateKey", encryptedPrivateKey, password),
     changePassword: (currentPassword, newPassword, currentPrivateKey) => ipcRenderer.invoke("dialog:changePassword", currentPassword, newPassword, currentPrivateKey),
     changeDisplayName: (newDisplayName) => ipcRenderer.invoke("dialog:changeDisplayName", newDisplayName),
-    saveNewContact: (privateKey, publicKey, contact) => ipcRenderer.invoke("dialog:saveNewContact", privateKey, publicKey, contact),
+    saveNewContact: (contact, publicKey, privateKey) => ipcRenderer.invoke("dialog:saveNewContact", contact, publicKey, privateKey),
     loadContacts: () => ipcRenderer.invoke("dialog:loadContacts")
 });
 

@@ -121,12 +121,13 @@
             const newContact = {
                 address: contactAddress,
                 port: contactPort,
-                displayName: "",
-                publicKey: "",
+                id: null,
+                displayName: null,
+                publicKey: null,
                 hasMadeConnection: false
             }
 
-            const conacts = await window.electronAPI.saveNewContact(userdata.privateKey, userdata.publicKey, newContact);
+            const conacts = await window.electronAPI.saveNewContact(newContact, userdata.publicKey, userdata.privateKey);
         }
     </script>
 </html>
