@@ -161,7 +161,7 @@ async function saveNewContact(_event, contact, publicKey, privateKey) {
         const contactsEncrypted = await encryptMessage(publicKey, newContactsData);
 
         fs.writeFileSync(contactsFile, contactsEncrypted);
-        return newContactsData;
+        return [contact];
     }
 
     // If client has existing contacts, add on to it
@@ -169,6 +169,22 @@ async function saveNewContact(_event, contact, publicKey, privateKey) {
     const decryptedContacts = await decryptMessage(privateKey, contactsRaw.toString('utf8'));
     const contacts = JSON.parse(decryptedContacts);
     contacts.push(contact);
+
+    // Re-Encrypt and save
+    const contactsEncrypted = await encryptMessage(publicKey, JSON.stringify(contacts));
+    fs.writeFileSync(contactsFile, contactsEncrypted);
+
+    return contacts;
+}
+
+async function deleteContact(_event, contactID, publicKey, privateKey) {
+    // Get contacts
+    const contactsRaw = await fs.promises.readFile(contactsFile).catch(() => { return false });
+    const decryptedContacts = await decryptMessage(privateKey, contactsRaw.toString('utf8'));
+    let contacts = JSON.parse(decryptedContacts);
+
+    // filter out contact
+    contacts = contacts.filter(contact => contact.id !== contactID);
 
     // Re-Encrypt and save
     const contactsEncrypted = await encryptMessage(publicKey, JSON.stringify(contacts));
@@ -190,6 +206,7 @@ app.whenReady().then(async() => {
     ipcMain.handle("dialog:changeDisplayName", changeDisplayName);
     ipcMain.handle("dialog:saveNewContact", saveNewContact);
     ipcMain.handle("dialog:getContactList", getContactList);
+    ipcMain.handle("dialog:deleteContact", deleteContact);
 
     // Retry to create window
     app.on("activate", () => {

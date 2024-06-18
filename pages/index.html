@@ -95,6 +95,8 @@
         const currentContactAddresss = document.getElementById("current-contact-address");
         const removeContactBtn = document.getElementById("remove-contact-btn");
 
+        let selectedContactID = null
+
 
         // Only allow user in if logged in
         let userdata = sessionStorage.getItem("userdata");
@@ -107,6 +109,7 @@
          * Updates the div containing the li element of contacts
          */
         const updateContactList = (contacts) => {
+            console.log(contacts)
             contactsDiv.innerHTML = '';
 
             for (let i = 0; i < contacts.length; i++) {
@@ -123,6 +126,7 @@
                 const li = document.createElement("li");
                 li.innerText = contactDisplayAs;
                 li.onclick = () => {
+                    selectedContactID = contacts[i].id
                     currentContactDisplayname.innerText = contacts[i].displayName === null ? "¯\\_(ツ)_/¯" : contacts[i].displayName;
                     currentContactAddresss.innerText = contacts[i].address;
                 }
@@ -131,8 +135,9 @@
         }
 
         // delete contact
-        removeContactBtn.onclick = () => {
-            //TODO: delete contact
+        removeContactBtn.onclick = async () => {
+            const updatedContactsList = await window.electronAPI.deleteContact(selectedContactID, userdata.publicKey, userdata.privateKey);
+            updateContactList(updatedContactsList);
         }
 
         // On load get contacts and update list
@@ -167,7 +172,7 @@
             const newContact = {
                 address: contactAddress,
                 port: contactPort,
-                id: null,
+                id: `${Math.floor(Math.random() * 100000000)}`,
                 displayName: null,
                 publicKey: null,
                 hasMadeConnection: false

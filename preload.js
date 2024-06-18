@@ -10,7 +10,8 @@ contextBridge.exposeInMainWorld("electronAPI", {
     changePassword: (currentPassword, newPassword, currentPrivateKey) => ipcRenderer.invoke("dialog:changePassword", currentPassword, newPassword, currentPrivateKey),
     changeDisplayName: (newDisplayName) => ipcRenderer.invoke("dialog:changeDisplayName", newDisplayName),
     saveNewContact: (contact, publicKey, privateKey) => ipcRenderer.invoke("dialog:saveNewContact", contact, publicKey, privateKey),
-    getContactList: (privateKey) => ipcRenderer.invoke("dialog:getContactList", privateKey)
+    getContactList: (privateKey) => ipcRenderer.invoke("dialog:getContactList", privateKey),
+    deleteContact: (contactID, publicKey, privateKey) => ipcRenderer.invoke("dialog:deleteContact", contactID, publicKey, privateKey)
 });
 
 window.addEventListener('DOMContentLoaded', () => {
