@@ -98,7 +98,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-#remove-contact {
+#remove-contact-btn {
     width: 90%;
     padding: 10px;
     margin: 5px 0;
@@ -110,7 +110,7 @@ body {
     border: 0;
 }
 
-#remove-contact:hover {
+#remove-contact-btn:hover {
     background-color: #bb3838;
 }
 

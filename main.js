@@ -49,7 +49,7 @@ const contactsFile = path.join(app.getPath("userData"), "contacts");
 
 function createWindow() {
     const mainWindow = new BrowserWindow({
-        width: 900,
+        width: 1000,
         height: 900,
         icon: path.join(__dirname, "icon.png"),
         webPreferences: {
@@ -189,6 +189,7 @@ app.whenReady().then(async() => {
     ipcMain.handle("dialog:decryptPrivateKey", decryptPrivateKeyHandle);
     ipcMain.handle("dialog:changeDisplayName", changeDisplayName);
     ipcMain.handle("dialog:saveNewContact", saveNewContact);
+    ipcMain.handle("dialog:getContactList", getContactList);
 
     // Retry to create window
     app.on("activate", () => {

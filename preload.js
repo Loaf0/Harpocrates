@@ -10,26 +10,10 @@ contextBridge.exposeInMainWorld("electronAPI", {
     changePassword: (currentPassword, newPassword, currentPrivateKey) => ipcRenderer.invoke("dialog:changePassword", currentPassword, newPassword, currentPrivateKey),
     changeDisplayName: (newDisplayName) => ipcRenderer.invoke("dialog:changeDisplayName", newDisplayName),
     saveNewContact: (contact, publicKey, privateKey) => ipcRenderer.invoke("dialog:saveNewContact", contact, publicKey, privateKey),
-    loadContacts: () => ipcRenderer.invoke("dialog:loadContacts")
+    getContactList: (privateKey) => ipcRenderer.invoke("dialog:getContactList", privateKey)
 });
 
 window.addEventListener('DOMContentLoaded', () => {
-    const contacts = ["Joe", "John", "Tyler", "Zach", "Nick", "Teddy", "Ethan", "Anneliese", "Twig"];
-    const contactsDiv = document.getElementById("contacts-list");
-
-    for (let i = 0; i < contacts.length; i++) {
-        const li = document.createElement("li");
-        li.innerText = contacts[i];
-        li.onclick = () => {
-            //TODO: switch screen to contact, load contact messages
-        }
-        contactsDiv.appendChild(li);
-    }
-
-    document.getElementById("add-contact").onclick = () => {
-        //TODO: display a screen to enter contact address
-    }
-
     const messagesDiv = document.getElementById("messages");
     const createMessage = (contact, content) => {
         const div = document.createElement("div");
