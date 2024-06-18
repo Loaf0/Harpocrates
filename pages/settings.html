@@ -30,22 +30,23 @@
                             <td>
                                 <div class="setting_blocks" style="margin-left: 2%;">
                                     <h2>Amount of Messages Saved</h2>
-                                    <input id="newSavedMsgInput" type="number" min="5" max="500">
+                                    <input id="msgLogLimitInput" type="number" min="5" max="500">
                                     <h2>Change Port</h2>
                                     <input id="newPortInput" type="text">
                                 </div>
                             </td>
                         </table>
-                        <h2>Enable Message Saving : <input id="SaveMessages" type="checkbox" style="height: max-content; width: 20px; "></h2> <!-- Dynamically change the checked value of the box depending on user settings -->
+                        <h2>Enable Message Saving : <input id="isMsgsSavedInput" type="checkbox" style="height: max-content; width: 20px; "></h2> <!-- Dynamically change the checked value of the box depending on user settings -->
                     </div>
 
                     <div class="settings_menu" style="width: 50%;">
                         <h2>Current Password</h2>
                         <input id="currentPasswordInput" type="password">
                         <button id="saveBtn">Save Changes</button>
-                        <button id="logoutBtn">Logout</button>
-                        <p>{{Server response empty when not used}}</p>
+                        <p id="statusMsg">{{Server response empty when not used}}</p>
                     </div>
+
+                    <button id="logoutBtn">Logout</button>
                 </div>
             </div>
         </div>
@@ -58,6 +59,16 @@
         }
         userdata = JSON.parse(userdata);
 
+        // propagate settings
+        const propagateSettings = () => {
+            document.getElementById("displayNameInput").value = userdata.displayName;
+            document.getElementById("msgLogLimitInput").value = userdata.msgLogLimit;
+            document.getElementById("newPortInput").value = userdata.port;
+            document.getElementById("isMsgsSavedInput").checked = userdata.isMsgsSaved;
+        }
+        propagateSettings();
+
+
         // Logs user out | Deletes session obj
         document.getElementById("logoutBtn").onclick = () => {
             sessionStorage.removeItem("userdata");
@@ -66,15 +77,14 @@
 
         // Change settings
         document.getElementById("saveBtn").onclick = async () => {
-            const displayNameInput = document.getElementById("displayNameInput").value;
-            const newPasswordInput = document.getElementById("newPasswordInput").value;
             const currentPasswordInput = document.getElementById("currentPasswordInput").value;
-
             const currentPasswordHash = await window.electronAPI.createPasswordHash(currentPasswordInput);
 
             // If password correct: process changes
             if (currentPasswordHash === userdata.passwordHash) {
+            
                 // Change password
+                const newPasswordInput = document.getElementById("newPasswordInput").value;
                 if (newPasswordInput !== "" && newPasswordInput !== " ") {
                     await window.electronAPI.changePassword(currentPasswordInput, newPasswordInput, userdata.privateKey);
                     sessionStorage.removeItem("userdata");
@@ -82,17 +92,21 @@
                     //TODO: display password change successful
                 }
 
-                // Change display name
-                if (displayNameInput !== "" && displayNameInput !== " ") {
-                   const newUserdata = await window.electronAPI.changeDisplayName(displayNameInput);
-                   sessionStorage.setItem("userdata", JSON.stringify(newUserdata));
-                    //TODO: display displayname change successful
-                }
+                // Update settings
+                const displayNameInput = document.getElementById("displayNameInput").value;
+                const msgLogLimitInput = document.getElementById("msgLogLimitInput").value;
+                const portInput = document.getElementById("newPortInput").value;
+                const isMsgsSavedInput = document.getElementById("isMsgsSavedInput").checked;
+
+                const newUserdata = await window.electronAPI.changeUserSettings(displayNameInput, msgLogLimitInput, portInput, isMsgsSavedInput);
+                sessionStorage.setItem("userdata", JSON.stringify(newUserdata));
+                document.getElementById("statusMsg").innerText = "Update settings successful";
+
+                propagateSettings();
             } else {
-                //TODO: handle error message for incorrect password
+                document.getElementById("statusMsg").innerText = "Current password input incorrect";
             }
 
-            document.getElementById("displayNameInput").value = "";
             document.getElementById("newPasswordInput").value = "";
             document.getElementById("currentPasswordInput").value = "";
         }

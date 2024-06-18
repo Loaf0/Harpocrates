@@ -342,7 +342,16 @@ body {
 }
 
 #logoutBtn {
+    margin: auto;
     background-color: #992d2d;
+    font-size: 16px;
+    color: #ddd;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    width: 50%;
+    /* margin: 4px; */
 }
 
 #logoutBtn:hover {

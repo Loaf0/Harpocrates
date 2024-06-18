@@ -103,7 +103,10 @@ async function createNewUser(_event, displayName, password) {
         displayName,
         publicKey: keys.publicKey,
         privateKey: keys.encryptedPrivateKeyIV,
-        passwordHash
+        passwordHash,
+        port: 37023,
+        msgLogLimit: 50,
+        isMsgsSaved: true
     }
 
     // Write UserData to disk
@@ -133,9 +136,12 @@ async function changePassword(_event, currentPassword, newPassword, currentPriva
     return userdata;
 }
 
-async function changeDisplayName(_event, newDisplayName) {
+async function changeUserSettings(_event, newDisplayName, newMsgLogLimit, newPort, newIsMsgsSaved) {
     const userdata = await getUserData();
     userdata.displayName = newDisplayName;
+    userdata.msgLogLimit = newMsgLogLimit;
+    userdata.port = newPort;
+    userdata.isMsgsSaved = newIsMsgsSaved;
     fs.writeFileSync(userdataFile, JSON.stringify(userdata));
 
     return userdata;
@@ -203,7 +209,7 @@ app.whenReady().then(async() => {
     ipcMain.handle("dialog:createPasswordHash", createPasswordHashHex);
     ipcMain.handle("dialog:changePassword", changePassword);
     ipcMain.handle("dialog:decryptPrivateKey", decryptPrivateKeyHandle);
-    ipcMain.handle("dialog:changeDisplayName", changeDisplayName);
+    ipcMain.handle("dialog:changeUserSettings", changeUserSettings);
     ipcMain.handle("dialog:saveNewContact", saveNewContact);
     ipcMain.handle("dialog:getContactList", getContactList);
     ipcMain.handle("dialog:deleteContact", deleteContact);
